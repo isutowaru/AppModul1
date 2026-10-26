@@ -1,39 +1,35 @@
-import React, {useState} from 'react';
-import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
+import React from 'react';
+import {Text} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Home from './Home';
+import About from './About';
+import Profil from './Profil';
+ 
+const Tab = createBottomTabNavigator();
  
 export default function App() {
-  const [isian, setIsian] = useState('');
-  const [hasil, setHasil] = useState('');
- 
-  const kirim = () => {
-    setHasil(isian);
-  };
- 
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Ketik sesuatu..."
-        value={isian}
-        onChangeText={setIsian}
-      />
-      <Button title="Submit" onPress={kirim} />
-      {hasil !== '' && (
-        <Text style={styles.hasil}>Teks yang diinput: {hasil}</Text>
-      )}
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator
+        initialRouteName="Home"
+        screenOptions={{tabBarActiveTintColor: '#1E6FD9'}}>
+        <Tab.Screen
+          name="Home"
+          component={Home}
+          options={{tabBarIcon: () => <Text>🏠</Text>}}
+        />
+        <Tab.Screen
+          name="About"
+          component={About}
+          options={{tabBarIcon: () => <Text>ℹ️</Text>}}
+        />
+        <Tab.Screen
+          name="Profil"
+          component={Profil}
+          options={{tabBarIcon: () => <Text>👤</Text>}}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
- 
-const styles = StyleSheet.create({
-  container: {flex: 1, justifyContent: 'center', padding: 24},
-  input: {
-    height: 44,
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 6,
-    paddingHorizontal: 10,
-    marginBottom: 12,
-  },
-  hasil: {marginTop: 16, fontSize: 18},
-});
